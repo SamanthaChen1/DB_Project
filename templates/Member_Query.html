@@ -1,0 +1,130 @@
+{% extends "head.html" %} {% block content %}
+<div class="container">
+    <div class="jumbotron">
+        <h2>Member Query : </h2>
+        <form class="form-inline" action="{{ url_for('addOrder') }}" method="POST">
+            Customer Name :
+            <input class="form-control" type="text" name="M_id" />
+            <br />Customer Phone :
+            <input class="form-control" type="text" name="M_phone" />
+            <br />
+            <input class="btn btn-default" type="submit" />
+        </form>
+        <form>
+            <table border="0" width="540" id="table1">
+                <tr>
+                    <td width="125" bgcolor="#7F9DB9">Customer ID</font>
+                    </td>
+                    <td width="125" bgcolor="#7F9DB9">Customer Name</font>
+                    </td>
+                    <td width="125" bgcolor="#7F9DB9">Birthday</font>
+                    </td>
+                    <td width="90" bgcolor="#7F9DB9">Phone</font>
+                    </td>
+                </tr>
+            </table>
+            
+        </form>
+    </div>
+</div>
+<script type="text/javascript">
+var countMin = 1;
+var countMax = 10; //最多幾列 
+var count = countMin;
+
+function addField() {
+    var table = document.getElementById("table1");
+    var tr = table.insertRow(-1);
+
+    var td = tr.insertCell(-1);
+    td.innerHTML = "<span class=red>" + tr.rowIndex + "</span>";
+
+    var select = document.createElement("select");
+    select.setAttribute("name", "num");
+    select.options.add(new Option("", ""))
+    for (var i = 0; i < document.getElementById("temp1").length; i++) {
+        select.options.add(new Option(document.getElementById("temp1").options[i].value, document.getElementById("temp1").options[i].innerHTML));
+    }
+
+    var index = tr.rowIndex;
+    var td = tr.insertCell(-1);
+    td.innerHTML = '<input name="p_id" type="text" size="10" id="' + index + '_id">' + '</input>';
+
+    var td = tr.insertCell(-1);
+    td.innerHTML = '<span name="p_name" id="' + index + '_name">' + '</span>';
+
+    var td = tr.insertCell(-1);
+    td.innerHTML = '<input onblur="cal()" name="p_price" id="' + index + '_unitprice" type="number">' + '</input>';
+
+    var td = tr.insertCell(-1);
+    td.innerHTML = '<input onblur="cal()" value="1" name="quantity" type="text" size="10" id="' + index + '_quantity" type="number">' + '</input>';
+
+    var td = tr.insertCell(-1);
+    td.innerHTML = '<span name="item_price" id="' + index + '_itemprice" type="number">' + '</span>';
+
+    /*
+        var td = tr.insertCell(-1);
+        td.appendChild(input);
+
+        var input = document.createElement("input");
+        input.setAttribute("class", "form-control");
+        input.setAttribute("name", "product_id");
+
+        for (var i = 0; i < document.getElementById("temp1").length; i++) {
+            select.options.add(new Option(document.getElementById("temp1").options[i].value, document.getElementById("temp1").options[i].innerHTML));
+        }
+
+
+
+        var td = tr.insertCell(-1);
+        td.appendChild(select);
+
+        var select = document.createElement("select");
+        select.setAttribute("name", "cname");
+        select.options.add(new Option("", ""))
+        for (var i = 0; i < document.getElementById("temp2").length; i++) {
+            select.options.add(new Option(document.getElementById("temp2").options[i].value, document.getElementById("temp2").options[i].innerHTML));
+        }
+    */
+    //    var td = tr.insertCell(-1);
+    //    td.appendChild(select);
+
+    var td = tr.insertCell(-1);
+    td.innerHTML = "<input type='button' value='刪除' onclick='javascript:delField(this);'>";
+    document.getElementById("add").style.display = table.rows.length == countMax + 1 ? "none" : "";
+}
+
+function delField(obj) {
+    var table = document.getElementById("table1");
+    table.deleteRow(obj.parentNode.parentNode.rowIndex);
+    document.getElementById("add").style.display = "";
+    if (table.rows.length > 1) {
+        for (i = 1; i < table.rows.length; i++) {
+            table.rows(i).cells(0).innerHTML = "<span class=red>" + i.toString() + "</span>";
+        }
+    }
+}
+
+function cal() {
+    var index = document.getElementById("table1").rows.length;
+    //    var index = $(this).closest("tr").index() + 2;
+    for (i = 1; i <= index; i++) {
+        var up = $("#" + i + '_unitprice').val();
+        var q = $("#" + i + '_quantity').val();
+        //var up= document.getElementById(i + "_unitprice").value;
+        //var q = document.getElementById(i + "_quantity").value;
+        $("#" + i + '_itemprice').attr("value", up * q);
+        $("#" + i + '_itemprice').text(up * q);
+
+    }
+
+    var amt = 0;
+    for (i = 1; i < index; i++) {
+        var b = parseInt($("#" + i + '_itemprice').attr("value"));
+        amt += b;
+    }
+    $("#total").attr("value", amt);
+    $("#total").text($("#total").attr("value"));
+}
+</script>
+{% endblock content %}

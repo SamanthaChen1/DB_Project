@@ -1,0 +1,33 @@
+{% extends "head.html" %} {% block content %}
+<div class="container">
+    
+    <div class="jumbotron">
+        <h2>Add Product : </h2>
+        <form class="form-inline" action="{{ url_for('addOrder') }}" method="POST">
+            Product ID
+            <select name="M_ID">
+                {% for m in memberList %}
+                <option value="{{ m.id }}">{{ m.name }}</option>
+                {% endfor %}
+            </select>
+            <br /> Product Name
+            <select name="P_ID">
+                {% for p in productList %}
+                <option value="{{ p.id }}">{{ p.name }}</option>
+                {% endfor %}
+            </select>
+            <br /> Type :
+                <select id="temp1">
+                    <option value="0001">0001</option>
+                    <option value="0002">0002</option>
+                    <option value="0003">0003</option>
+                    <option value="0004">0004</option>
+                </select>
+            <br />
+            <input class="btn btn-default" type="submit" />
+        </form>
+    </div>
+</div>
+
+</script>
+{% endblock content %}

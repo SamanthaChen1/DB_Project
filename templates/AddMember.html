@@ -1,0 +1,27 @@
+{% extends "head.html" %} {% block content %}
+<div class="container">    
+    <div class="jumbotron">
+        <h2>Add Member : </h2>
+        <form class="form-inline" action="{{ url_for('addOrder') }}" method="POST">
+            Member ID :
+            <span>
+                {% for m in memberList %}
+                <option value="{{ m.id }}">{{ m.name }}</option>
+                {% endfor %}
+            </span>
+            <br /> Name :
+                <input type="text" name="M_name"></input>
+            <br /> Birthday :
+                <input type="date" name="M_bith"></input>
+            <br /> Phone :
+                <input type="text" name="M_phone"></input>
+            <br /> E-mail :
+                <input type="text" name="M_mail"></input>
+            <br />
+            <input class="btn btn-default" type="submit" />
+        </form>
+    </div>
+</div>
+
+</script>
+{% endblock content %}
